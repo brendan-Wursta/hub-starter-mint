@@ -28,6 +28,7 @@
     "@types/node": "18.13.0",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "@types/styled-components": "^5.1.26",
     "async-wait-until": "^2.0.12",
     "clsx": "^1.2.1",
     "graphql": "^16.6.0",
@@ -42,7 +43,8 @@
     "ramda": "^0.28.0",
     "react": "^18.2.0",
     "react-dom": "18.2.0",
-    "react-spinners": "^0.13.8"
+    "react-spinners": "^0.13.8",
+    "styled-components": "^5.3.10"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.16.4",

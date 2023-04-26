@@ -13,6 +13,7 @@ import { drop, isNil, not, pipe } from "ramda";
 import useMe from "@/hooks/useMe";
 import { Session } from "next-auth";
 import { CheckIcon } from "@heroicons/react/24/solid";
+import SocialLinks from "./components/SocialLinks";
 
 interface MintData {
   mint: string;
@@ -49,11 +50,22 @@ export default function Home({ session }: HomeProps) {
   return (
     <>
       <div className="flex w-full justify-between items-center py-4">
-        <Image src="/img/logo.png" alt="site logo" width={199} height={18} />
+        <div className="flex flex-col gap-4">
+          <Image
+            src="/img/wrstcollabs.png"
+            alt="site logo2"
+            width={175}
+            height={16}
+          />
+          <div>
+            In Conjunction With: <br></br>
+          </div>
+          <Image src="/img/logo.png" alt="site logo" width={199} height={16} />
+        </div>
 
         {!me ? (
           <>
-            <div className="flex gap-1 md:gap-4 items-center">
+            {/* <div className="flex gap-1 md:gap-4 items-center">
               <Link
                 href="/login"
                 className="text-cta font-medium md:font-bold md:border-2 md:rounded-full md:border-cta md:py-3 md:px-6"
@@ -67,13 +79,19 @@ export default function Home({ session }: HomeProps) {
               >
                 Sign up
               </Link>
-            </div>
+            </div> */}
           </>
         ) : (
-          <button className="text-cta font-bold border-2 rounded-full border-cta py-3 px-6 flex gap-2">
-            <img className="w-6 h-6 rounded-full" src={me?.image as string} />
-            <span>{me?.name}</span>
-          </button>
+          <div className="pl-6">
+            <button className="text-cta border-2 rounded-full border-cta py-2 px-2 flex gap-2">
+              <img
+                className="w-6 h-6 rounded-full"
+                src={"/img/solana.jpeg"}
+                alt="soljpeg"
+              />
+              <span className="truncate">{me?.name}</span>
+            </button>
+          </div>
         )}
       </div>
       <div className="w-full grid grid-cols-12  md:gap-4 lg:gap-12 mt-4 md:mt-10 lg:mt-16">
@@ -137,7 +155,8 @@ export default function Home({ session }: HomeProps) {
                 <div className="flex flex-row items-center gap-2">
                   <img
                     className="w-14 h-14 rounded-full"
-                    src={session?.user?.image as string}
+                    src={"/img/solana.jpeg"}
+                    alt="soljpeg"
                   />
 
                   <div className="flex flex-col gap-1 justify-between">
@@ -173,7 +192,29 @@ export default function Home({ session }: HomeProps) {
               </>
             )}
           </div>
+          {session ? (
+            <div className="mt-20px">
+              Solana Wallet Address: <br></br>
+              <span className="text-xs">
+                {me?.wallet?.address}
+              </span> <br></br> <br></br> <br></br>
+              <Link
+                href="https://phantom.app/"
+                // className="text-phantom font-medium md:font-bold md:border-2 md:rounded-full md:border-purple md:py-3 md:px-6"
+                className="text-phantom font-medium md:font-bold md:border-2 md:rounded-full md:border-purple-500 md:py-3 md:px-6"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Download Phantom Wallet!
+              </Link>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
+      </div>
+      <div className="mt-12">
+        <SocialLinks />
       </div>
     </>
   );

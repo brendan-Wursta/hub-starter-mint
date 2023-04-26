@@ -18,8 +18,8 @@ Includes:
   /migrations # prisma auto-generated migration files
 /src
  /app # next js app directory
+  Home.tsx # customize your mint page here
   /login # social sign up or login
-  page.tsx # mint page
  /pages
    /api # next js api routes
     graphql.ts # apps graphql server
@@ -32,9 +32,21 @@ Includes:
  /mutations # holaplex and app api mutations
  tailwind.config.js # color theme
 ```
-## Getting Started
 
-Ensure you have nodejs and docker installed on your workstation.
+## Google Authentication
+
+In your exampleLocal.env and exampleRender.env you will need google auth credentials (ClientID and Secret). In [Google Cloud Platform](https://console.cloud.google.com/): Search for 'Api Credentials' -> create credentials for OAuth2.0.
+
+Later when you generate your site using render and have the URL, you will need to add the following to your Oauth:
+
+- Javascript Origins:
+  - https://PUT-YOUR-SITE-URL-HERE.com
+- Redirect URLs:
+  - https://PUT-YOUR-SITE-URL-HERE.com/api/auth/callback/google
+
+## Local Machine Setup
+
+Ensure you have nodejs and docker installed on your workstation. Refer to `exampleLocal.env` for the required variables.
 
 ```
 # start postgres in a docker container
@@ -55,46 +67,25 @@ npm run dev
 
 See your app at [http://localhost:3000](http://localhost:3000)
 
-## Environment
+## Site Deployment Setup on Render
 
-Create a `.env` file at the root of the project. Add the following environment variable.
+The starter is designed to be deployed to [Render](https://render.com) using their Infrastructure as Code (IaC) configuration file [render.yaml](/render.yaml). The IaC manifest will set up a web server for the mint page and a database for storing users, sessions, and wallets. Note: you must have a paid subscription to Render to deploy a Blueprint as described below.
+
+On [render.com](https://render.com) navigate to the `BluePrint` Tab.
+
+- New Blueprint Instance
+- Connect your repo, define your Blueprint name and branch.
+- Refer to the exampleRender.env file for the environment variables required. Place them into the: Dashboard -> web-service -> Environment page
+- To generate the NEXTAUTH_SECRET environment variable, in Render: dashboard -> myWebService -> shell:
 
 ```
-# setup SSO with Google
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-
-# database
-DATABASE_URL=postgres://postgres:holaplex@localhost:5432/hub-starter
-POSTGRES_DB=hub-starter
-POSTGRES_PASSWORD=holaplex
-
-# holaplex
-HOLAPLEX_API_ENDPOINT=https://api.holaplex.com/graphql
-# https://docs.holaplex.dev/api
-HOLAPLEX_AUTH_TOKEN=
-# https://docs.holaplex.dev/hub/For%20Developers/webhooks-overview
-HOLAPLEX_PROJECT_ID=
-# https://docs.holaplex.dev/hub/Guides/creating-drops
-HOLAPLEX_DROP_ID=
-# https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet
-HOLAPLEX_WALLET_ASSET_TYPE=SOL
+openssl rand -base64 32
 ```
-
-### Migrations
-
-Follow the [Prisma guide](https://www.prisma.io/docs/guides/database/developing-with-prisma-migrate) on adjusting the database through migrations. Once the Prisma schema has been adjusted run `npm run migrate`.
-
-## Release
-The starter is designed to be deployed to [render](https://render.com) using their Infrastructure as Code (IaC) configuration file [render.yaml](/render.yaml). The IaC manifest will set up a web server for the mint page and a database for storing users, sessions, and wallets.
 
 ### Database
-After deploying the environment, access the shell of the web server and run the following command to create and set up the database schema:
+
+After deploying the environment, we need to seed the database. Run the following command in Render -> dashboard -> myWebService -> shell:
 
 ```
 npm run db
 ```
-
-### Environment Variables
-Although the IaC will create placeholder environment variables for the web service, you will need to update them to match your Holaplex account.
-

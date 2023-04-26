@@ -26,10 +26,12 @@ export default async function Layout({
     <html lang="en">
       <head />
       <body
-        className={clsx(
-          inter.className,
-          "bg-backdrop text-white container m-auto flex flex-col flex-grow min-h-screen max-w-5xl items-center px-4 lg:px-0"
-        )}
+        className={
+          clsx(
+            inter.className,
+            "bg-backdrop text-white container m-auto flex flex-col flex-grow min-h-screen max-w-5xl items-center px-4 lg:px-0"
+          ) + " mb-10"
+        }
       >
         <App me={me}>{children}</App>
       </body>
